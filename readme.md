@@ -1,6 +1,6 @@
 用來選取範圍將Excel資料轉換成Array或是SQL Insert語法，或是Lravel的Query Builder.
 
-DEMO:
+點選圖片，觀看能能介紹:
 
 [![Everything Is AWESOME](https://www.ccc.tc/Excelify.png)](https://youtu.be/LkaWIOUlOFU "Everything Is AWESOME")
 
