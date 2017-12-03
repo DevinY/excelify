@@ -6,13 +6,15 @@ DEMO:
 
 <h3>請使用套件的方式安裝:</h3>
 
-1. create new laravel project or using exist one. 
+1. 建立一個新的Laravel專案或是已存在專案. 
 
-2. composer require deviny/excelify
+2. 進入專案資料夾，並執行: composer require deviny/excelify
 
-3. php artisan vendor:publish
+3. 將Excelify發佈到專案中: php artisan vendor:publish
 
-4. open project url with browser: https://yourdomain/excelify
+Provider: Deviny\Excelify\ServiceProvider
+
+4. 用瀏覽器開啟專案網址: https://yourdomain/excelify
 
 
 <h3>環境變數</h3>
