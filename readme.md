@@ -15,6 +15,17 @@ DEMO:
 4. open project url with browser: https://yourdomain/excelify
 
 
+<h3>環境變數</h3>
+
+您可加入EXCELIFY_SECRET到.env中，即可上鎖畫面。
+
+EXCELIFY_SECRET=secret
+
+可以指定為空白，取消預設的RENDERTRON網址。
+
+使用RENDERTRON時，可讓excelify抓取用JavaScript產生的表格，並將其轉換為Excel。
+
+XCELIFY_RENDERTRON_URL=
 
 <h3>為了確保執行上沒什麼問題，建議設定如下:</h3>
 
