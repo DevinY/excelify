@@ -8,10 +8,15 @@ DEMO:
 
 1. 建立一個新的Laravel專案或是已存在專案. 
 
-2. 在專案資料夾中執行: composer require deviny/excelify
+2. 在專案資料夾中執行: 
 
-3. 將Excelify的View發佈到專案中: php artisan vendor:publish
+composer require deviny/excelify
 
+3. 將Excelify的View發佈到專案中: 
+
+php artisan vendor:publish
+
+選擇Excelify的Provider。
 Provider: Deviny\Excelify\ServiceProvider
 
 4. 用瀏覽器開啟專案網址: https://yourdomain/excelify
