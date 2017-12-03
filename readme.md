@@ -4,13 +4,15 @@ DEMO:
 
 [![Everything Is AWESOME](https://www.ccc.tc/Excelify.png)](https://youtu.be/LkaWIOUlOFU "Everything Is AWESOME")
 
-<h3>安裝:</h3>
+<h3>請使用套件的方式安裝:</h3>
 
-1. composer install
+1. create new laravel project or using exist one. 
 
-2. cp .env.example .env
+2. composer require deviny/excelify
 
-3. php artisan key:generate
+3. php artisan vendor:publish
+
+4. Go to project site with browser: https://yourdomain/excelify
 
 
 
