@@ -33,7 +33,7 @@ return [
     'start_cell_error'=>'需有欄位加行號，例如:a1',
     'select_a_excel_file'=>'請選擇Excel檔',
     'tablename_required'=>'資料表名稱必填',
-    'remove_excelfiles_in_temp'=>'移除所有暫存的Excel檔',
+    'remove_excelfiles_in_temp'=>'移除所有暫存的Excel檔(storage/app/excelfile)',
     'api_calls'=>'API呼叫範例',
 ];
 ?>

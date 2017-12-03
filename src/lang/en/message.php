@@ -33,7 +33,7 @@ return [
     'start_cell_error'=>'Need to add the cell with number, for example: a1',
     'select_a_excel_file'=>'Select a excel file please.',
     'tablename_required'=>'table name is required',
-    'remove_excelfiles_in_temp'=>'Remove all excel files in temp folder.',
+    'remove_excelfiles_in_temp'=>'Remove all excel files in temp folder.(storage/app/excelfile)',
     'api_calls'=>'Example API Calls',
 ];
 ?>
