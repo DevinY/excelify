@@ -1,0 +1,35 @@
+{
+    "name": "deviny/excelify",
+    "description": "Testing",
+    "keywords": ["excelify", "tools"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Devin Yang",
+            "email": "devin@ccc.tc"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "guzzlehttp/guzzle": "^6.3",
+        "phpoffice/phpexcel": "^1.8",
+        "sunra/php-simple-html-dom-parser": "^1.5",
+        "illuminate/routing": "5.5.x",
+        "illuminate/session": "5.5.x",
+        "illuminate/support": "5.5.x"
+    },
+    "autoload": {
+        "psr-4": {
+            "Deviny\\Excelify\\":"src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Deviny\\Excelify\\ServiceProvider"
+            ]
+        }
+    }
+}
