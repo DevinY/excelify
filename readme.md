@@ -12,7 +12,7 @@ DEMO:
 
 3. php artisan vendor:publish
 
-4. Go to project site with browser: https://yourdomain/excelify
+4. open project url with browser: https://yourdomain/excelify
 
 
 
