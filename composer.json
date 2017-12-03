@@ -1,6 +1,6 @@
 {
     "name": "deviny/excelify",
-    "description": "Testing",
+    "description": "安裝於Laravel上的Excel資料轉換套件。",
     "keywords": ["excelify", "tools"],
     "license": "MIT",
     "authors": [
