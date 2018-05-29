@@ -13,10 +13,7 @@
         "php": ">=7.0",
         "guzzlehttp/guzzle": "^6.3",
         "phpoffice/phpexcel": "^1.8",
-        "sunra/php-simple-html-dom-parser": "^1.5",
-        "illuminate/routing": "5.5.x",
-        "illuminate/session": "5.5.x",
-        "illuminate/support": "5.5.x"
+        "sunra/php-simple-html-dom-parser": "^1.5"
     },
     "autoload": {
         "psr-4": {
