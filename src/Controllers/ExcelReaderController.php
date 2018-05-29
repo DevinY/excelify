@@ -4,7 +4,9 @@ namespace Deviny\Excelify\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use PHPExcel_IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Validator;
 use Storage;
 
@@ -30,7 +32,7 @@ class ExcelReaderController extends Controller
             //$path = $r->file('excelfile')->store('files', 'local', 'temp.xls');
             //固定的檔案
             if(!is_null($r->excelfile)){
-              $path = Storage::putFileAs('excelfile',$r->file('excelfile') , 'temp.xls');
+              $path = Storage::putFileAs('excelfile',$r->file('excelfile') , 'temp.xlsx');
               session(['path'=>$path]);
             }
         }
@@ -98,15 +100,13 @@ class ExcelReaderController extends Controller
 
         $filePath = storage_path(sprintf("app/%s",$path));  
         try {
-            $inputFileType = PHPExcel_IOFactory::identify($filePath);
-            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-            $objPHPExcel = $objReader->load($filePath);
+            $this->objPHPExcel = IOFactory::load($filePath);
         } catch(Exception $e) {
             die('Error loading file "'.pathinfo($filePath,PATHINFO_BASENAME).'": '.$e->getMessage());
         }
 
         //取得Sheet0
-        $sheet = $objPHPExcel->getSheet($sheetnum);
+        $sheet = $this->objPHPExcel->getSheet($sheetnum);
         if(!$r->end){
           $highestColumn = $sheet->getHighestColumn(); //最大欄寬的英文，例如: BH
           $highestRow = $sheet->getHighestRow();       //最大的列數
@@ -175,8 +175,8 @@ class ExcelReaderController extends Controller
       }
       //轉存
       if($r->datatype=="excel"){
-      $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-      $objWriter->save(storage_path()."/app/excelfile/download.xls");
+      $objWriter = new Xlsx($this->objPHPExcel);
+      $objWriter->save(storage_path()."/app/excelfile/download.xlsx");
       }
     
     return view('excelify::index',['data'=>$rows,'datatype'=>$r->datatype,'tablename'=>$r->tablename,'tabnum'=>1]);
@@ -205,7 +205,7 @@ class ExcelReaderController extends Controller
  //下載轉存的Excel
  function download_excel(){
   return response()
-  ->download(storage_path()."/app/excelfile/download.xls", 'download.xls');
+  ->download(storage_path()."/app/excelfile/download.xlsx", 'download.xlsx');
  }
 
   function toLetter($i){

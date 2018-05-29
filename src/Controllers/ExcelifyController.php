@@ -5,10 +5,10 @@ namespace Deviny\Excelify\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use PHPExcel_IOFactory;
-use PHPExcel;
-use PHPExcel_Cell_DataType;
-use PHPExcel_Writer_Excel5;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Writer\IWriter;
 use Validator;
 use GuzzleHttp\Client;
 //use Log;
@@ -25,8 +25,8 @@ class ExcelifyController extends Controller
     protected $rendertron_url;
 
     function __construct() {
-        $this->objPHPExcel = new PHPExcel();
-        $this->download_name = "download.xls";
+        $this->objPHPExcel = new Spreadsheet();
+        $this->download_name = "download.xlsx";
    }
 
     public function index(){
@@ -98,8 +98,8 @@ class ExcelifyController extends Controller
       $this->tablenum = $tablenum;
       $this->getData($r->table);
       $this->tableToExcel(); 
-      $name = isset($r->tablename)?$r->tablename:'download.xls';
-      $this->download_name = sprintf("%s.xls",$name);
+      $name = isset($r->tablename)?$r->tablename:'download.xlsx';
+      $this->download_name = sprintf("%s",$name);
       //$this->tablenum = empty($r->tablenum)?"0":$r->tablenum;
       return $this->download_temp();
   }
@@ -145,7 +145,7 @@ private function tableToExcel(){
 
 
         //路徑初值
-        $path=sprintf("excelfile/%s.xls", str_random(10));
+        $path=sprintf("excelfile/%s.xlsx", str_random(10));
 
 
         //記錄path 
@@ -153,7 +153,7 @@ private function tableToExcel(){
 
     //儲存Excel
       $this->objPHPExcel->setActiveSheetIndex(0);
-      $objWriter = new PHPExcel_Writer_Excel5($this->objPHPExcel);
+      $objWriter = new Xlsx($this->objPHPExcel);
       $objWriter->save(storage_path()."/app/".$path);
       unset($this->objPHPExcel);
       unset($objWriter);
@@ -177,11 +177,11 @@ private function tableToExcel(){
                             //欄位由0開始
                             //行由1開始
                             if(is_numeric($pureText)){
-                                $activeSheet->getCellByColumnAndRow($column_index, $i+1)->setValueExplicit( $pureText , PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                                $activeSheet->getCellByColumnAndRow($column_index, $i+1)->setValueExplicit( $pureText , DataType::TYPE_NUMERIC);
                             }else{
                                 $pureText = htmlspecialchars_decode($pureText);
                                 $pureText = preg_replace('/&nbsp;/uim', '', $pureText);
-                                $activeSheet->getCellByColumnAndRow($column_index, $i+1)->setValueExplicit( $pureText , PHPExcel_Cell_DataType::TYPE_STRING);
+                                $activeSheet->getCellByColumnAndRow($column_index, $i+1)->setValueExplicit( $pureText , DataType::TYPE_STRING);
                             }
                         }
 
@@ -196,11 +196,11 @@ private function tableToExcel(){
                             //欄位由0開始
                             //行由1開始
                             if(is_numeric($pureText)){
-                                $activeSheet->getCellByColumnAndRow($column_index, $i+1)->setValueExplicit( $pureText , PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                                $activeSheet->getCellByColumnAndRow($column_index, $i+1)->setValueExplicit( $pureText , DataType::TYPE_NUMERIC);
                             }else{
                                 $pureText = htmlspecialchars_decode($pureText);
                                 $pureText = preg_replace('/&nbsp;/uim', '', $pureText);
-                                $activeSheet->getCellByColumnAndRow($column_index, $i+1)->setValueExplicit( $pureText , PHPExcel_Cell_DataType::TYPE_STRING);
+                                $activeSheet->getCellByColumnAndRow($column_index, $i+1)->setValueExplicit( $pureText , DataType::TYPE_STRING);
                             }
                         }
                     }
