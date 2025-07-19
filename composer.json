@@ -12,8 +12,8 @@
     "require": {
         "php": ">=7.0",
         "guzzlehttp/guzzle": "^7.9",
-        "phpoffice/phpspreadsheet": "^1.2",
-        "sunra/php-simple-html-dom-parser": "^1.5"
+        "phpoffice/phpspreadsheet": "^4.4.0",
+        "sunra/php-simple-html-dom-parser": "^1.5.2"
     },
     "autoload": {
         "psr-4": {
