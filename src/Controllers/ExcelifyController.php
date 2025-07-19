@@ -11,8 +11,8 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Writer\IWriter;
 use Validator;
 use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 //use Log;
-use Sunra\PhpSimple\HtmlDomParser;
 
 class ExcelifyController extends Controller
 {
@@ -56,6 +56,7 @@ class ExcelifyController extends Controller
         $objProps->setCreator('excelify');
 
         $this->getData($r->url);
+
         if(!$this->dom) {
           return view('excelify::index')
           ->with('data', [])
@@ -65,7 +66,7 @@ class ExcelifyController extends Controller
         }
 
         $this->tableToExcel();
-       
+
 
       if(!isset($this->rowData)) $this->rowData=[];
       return view('excelify::index')
@@ -88,16 +89,23 @@ class ExcelifyController extends Controller
       }
 
         $http = new Client;
-        $response = $http->get($data); 
+        $response = $http->get($data);
         $data = (string) $response->getBody();
     }
-    $this->dom = HtmlDomParser::str_get_html($data);
+
+    $dom = new \DOMDocument();
+    libxml_use_internal_errors(true); // 忽略解析錯誤
+    $dom->loadHTML($data);
+    libxml_clear_errors();
+
+    $this->dom = $dom->getElementsByTagName('table');
+
   }
 
   public function excelify(Request $r, $tablenum=0){
       $this->tablenum = $tablenum;
       $this->getData($r->table);
-      $this->tableToExcel(); 
+      $this->tableToExcel();
       $name = isset($r->tablename)?$r->tablename:'download.xlsx';
       $this->download_name = sprintf("%s",$name);
       //$this->tablenum = empty($r->tablenum)?"0":$r->tablenum;
@@ -121,17 +129,17 @@ class ExcelifyController extends Controller
 
   }
 
-  //轉存Table到Excel暫存
+//轉存Table到Excel暫存
 private function tableToExcel(){
 
         //Table資料
         if($this->tablenum==0){
-            $arrTables = $this->dom->find('table');
+            $arrTables = $this->dom;
             foreach($arrTables as $sheet_index=>$table) {
                $this->create_sheet($table, $sheet_index);
             }
         }else{
-            $table = $this->dom->find('table')[$this->tablenum-1];
+            $table = $this->dom[$this->tablenum-1];
             $this->create_sheet($table,0);
         }
 
@@ -145,10 +153,10 @@ private function tableToExcel(){
 
 
         //路徑初值
-        $path=sprintf("excelfile/%s.xlsx", str_random(10));
+        $path=sprintf("excelfile/%s.xlsx", Str::random(10));
 
 
-        //記錄path 
+        //記錄path
         session(['path'=>$path]);
 
     //儲存Excel
@@ -165,14 +173,16 @@ private function tableToExcel(){
                 $this->objPHPExcel->setActiveSheetIndex($sheet_index);
 
                 $this->objPHPExcel->getActiveSheet()->setTitle($this->tablename.($sheet_index+1));
-                $arrTr = $table->find('tr');
+
+                $arrTr = $table->getElementsByTagName('tr');
+
                 $activeSheet = $this->objPHPExcel->getActiveSheet();
                 $this->rowData = [];
                 //至少大於三行的才抓取
                     foreach($arrTr as $i=>$tr){
-                        $arrTh = $tr->find('th');
+                        $arrTh = $tr->getElementsByTagName('th');
                         foreach($arrTh as $column_index=>$th){
-                            $pureText = strip_tags(preg_replace('#<(span|div|label)+.*display:none.+</(span|div|label)+>#us', '', $th->innertext));
+                            $pureText = strip_tags(preg_replace('#<(span|div|label)+.*display:none.+</(span|div|label)+>#us', '', $th->nodeValue));
                             $this->rowData[$i][$column_index] = $pureText;
                             //欄位由0開始
                             //行由1開始
@@ -185,12 +195,12 @@ private function tableToExcel(){
                             }
                         }
 
-                        $arrTd = $tr->find('td');
+                        $arrTd = $tr->getElementsByTagName('td');
                         //dd($arrTd);
                         foreach($arrTd as $column_index=>$td){
 //                            var_dump($td->innertext);
                             //移除所有隱藏的tag
-                            $pureText = strip_tags(preg_replace('#<(span|div|label)+.*display:none.+</(span|div|label)+>#us', '', $td->innertext));
+                            $pureText = strip_tags(preg_replace('#<(span|div|label)+.*display:none.+</(span|div|label)+>#us', '', $td->nodeValue));
 
                             $this->rowData[$i][$column_index] = $pureText;
                             //欄位由0開始
@@ -212,3 +222,4 @@ private function tableToExcel(){
   ->download(storage_path()."/app/".session()->get('path'), $this->download_name);
  }
 }
+
