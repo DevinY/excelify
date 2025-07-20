@@ -1,4 +1,4 @@
-用來選取範圍將Excel資料轉換成Array或是SQL Insert語法，或是Lravel的Query Builder.
+用來選取範圍將Excel資料轉換成Array或是SQL Insert語法，或是Laravel的Query Builder.
 
 點選圖片，觀看能能介紹:
 
